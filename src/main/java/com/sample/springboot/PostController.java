@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class PostController {
 
@@ -87,10 +89,16 @@ public class PostController {
         return "index";
     }
 
-    @RequestMapping(value = "/api")
+    @GetMapping(value = "/api")
+    public String AddPostPage(Model model, HttpSession sesh) {
+        LoggerPost pl = getLogger(sesh);
+        model.addAttribute("isLoggedIn", pl.GetLoggedIn());
+        return "index";
+    }
+
+    @PostMapping(value = "/api")
     public String AddPost(@RequestParam("post_text") String post,
     Model model, HttpSession sesh) {
-        model.addAttribute("title","Post Page");
         LoggerPost pl = getLogger(sesh);
         model.addAttribute("isLoggedIn", pl.GetLoggedIn());
         if (pl.GetLoggedIn())
@@ -98,21 +106,24 @@ public class PostController {
         return "index";
     }
 
-
     @RequestMapping(value = "/history")
     public String GetAllPosts(Model model, HttpSession sesh) {
         LoggerPost pl = getLogger(sesh);
-        String history = pl.GetPostsFromDB();
         model.addAttribute("isLoggedIn", pl.GetLoggedIn());
-        model.addAttribute("history", history);
-        model.addAttribute("newLineChar", '\n');
+        model.addAttribute("posts", pl.GetPostsListFromDB());
         return "history";
     }
 
-    @RequestMapping(value = "/delete")
-    public String DeletePost(@RequestParam("post_text") String deleteText, 
+    @GetMapping(value = "/delete")
+    public String DeletePostPage(Model model, HttpSession sesh) {
+        LoggerPost pl = getLogger(sesh);
+        model.addAttribute("isLoggedIn", pl.GetLoggedIn());
+        return "delete";
+    }
+
+    @PostMapping(value = "/delete")
+    public String DeletePost(@RequestParam("post_text") String deleteText,
     Model model, HttpSession sesh) {
-        model.addAttribute("title", "Delete Page");
         LoggerPost pl = getLogger(sesh);
         model.addAttribute("isLoggedIn", pl.GetLoggedIn());
         if (!deleteText.isEmpty()) {

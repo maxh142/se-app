@@ -3,6 +3,8 @@ import java.sql.*;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -177,6 +179,25 @@ public class PostDB {
             System.out.println(e.getMessage());
             System.out.println("Couldn't delete post from DB");
             return false;
+        }
+    }
+
+    List<String[]> getAllPostsList() {
+        if (!isLoggedIn)
+            return new ArrayList<>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM Posts");
+            List<String[]> result = new ArrayList<>();
+            while (rs.next()) {
+                result.add(new String[]{ rs.getString("timeStamp"), rs.getString("text") });
+            }
+            rs.close();
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Couldn't get all posts from DB");
+            return new ArrayList<>();
         }
     }
 

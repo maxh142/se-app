@@ -3,7 +3,9 @@ package com.sample.utils;
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class LoggerPost {
     private String filePath;
@@ -78,6 +80,10 @@ public class LoggerPost {
 
     public String GetPostsFromDB() {
         return db.getAllPosts();
+    }
+
+    public List<String[]> GetPostsListFromDB() {
+        return db.getAllPostsList();
     }
 
     @Deprecated

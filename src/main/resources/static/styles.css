@@ -1,0 +1,18 @@
+:root {
+  --color-bg:      #0f172a;
+  --color-surface: #1e293b;
+  --color-border:  #334155;
+  --color-primary: #3b82f6;
+  --color-danger:  #ef4444;
+  --color-text:    #cbd5e1;
+  --color-muted:   #64748b;
+}
+
+html {
+  background-color: var(--color-bg);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
